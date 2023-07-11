@@ -9,9 +9,9 @@ class WallServiceTest {
     @Test
     fun add() {
         val service = WallService
-        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1))
+        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1,  false, false, false, likes = Likes(), "type", 2))
 
-        val add = Post(1, 1, 1, date = Date(), "test1", 1, 1)
+        val add = Post(1, 1, 1, date = Date(), "test1", 1, 1, false, false, false, likes = Likes(), "type", 2)
         val addResult = (add.id > 0)
 
         assertTrue(addResult)
@@ -20,10 +20,10 @@ class WallServiceTest {
     @Test
     fun updateTrue() {
         val service = WallService
-        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1))
-        service.add(Post(2, 2, 2, date = Date(), "test2", 2, 2))
+        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1, false, false, false, likes = Likes(), "type", 2))
+        service.add(Post(2, 2, 2, date = Date(), "test2", 2, 2, false, false, false, likes = Likes(), "type", 2))
 
-        val update = Post(2, 2, 2, date = Date(), "test3", 2, 2)
+        val update = Post(2, 2, 2, date = Date(), "test3", 2, 2, false, false, false, likes = Likes(), "type", 2)
 
         val result = service.update(update)
 
@@ -34,11 +34,11 @@ class WallServiceTest {
     @Test
     fun updateFalse() {
         val service = WallService
-        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1))
-        service.add(Post(2, 2, 2, date = Date(), "test2", 2, 2))
-        service.add(Post(3, 3, 3, date = Date(), "test3", 2, 2))
+        service.add(Post(1, 1, 1, date = Date(), "test1", 1, 1, false, false, false, likes = Likes(), "type", 2))
+        service.add(Post(2, 2, 2, date = Date(), "test2", 2, 2, false, false, false, likes = Likes(), "type", 2))
+        service.add(Post(3, 3, 3, date = Date(), "test3", 2, 2, false, false, false, likes = Likes(), "type", 2))
 
-        val update = Post(5, 2, 2, date = Date(), "test2", 2, 2)
+        val update = Post(5, 2, 2, date = Date(), "test2", 2, 2, false, false, false, likes = Likes(), "type", 2)
 
         val result = service.update(update)
 
