@@ -1,3 +1,4 @@
+import java.lang.RuntimeException
 import java.util.Date
 
 data class Post(
@@ -14,6 +15,14 @@ data class Post(
     val likes: Likes = Likes(),
     val postType: String?,
     val isPinned: Int?,
+    val attachments: Array<Attachments> = emptyArray()
+)
+
+data class Comment(
+    val id: Int,
+    val fromId: Int,
+    val date: Date = Date(),
+    val text: String,
     val attachments: Array<Attachments> = emptyArray()
 )
 
@@ -81,8 +90,25 @@ data class Page(
     val text: String
 )
 
+class PostNotFoundException(massage: String) : RuntimeException(massage)
+
 object WallService {
     private var numPostsWall = emptyArray<Post>()
+    private var comments = emptyArray<Comment>()
+    var posts = emptyArray<Post>()
+
+    fun createComment(postId: Int, comment: Comment): Comment {
+        val post = numPostsWall.find { it.id == postId }
+        if (post != null) {
+            val lastCommentId = comments.lastOrNull()?.id ?: 0
+            val newComment = comment.copy(id = lastCommentId + 1, date = Date())
+            comments += newComment
+            return newComment
+        } else {
+            throw PostNotFoundException("Пост с идентификатором $postId не найден")
+
+        }
+    }
 
     fun add(post: Post): Post {
         var nextId = post.id
@@ -104,7 +130,7 @@ object WallService {
 
 class Likes(val countLikes: Int = 0)
 
-fun main(args: Array<String>) {
+fun main() {
     println(
         WallService.add(
             Post(1, 1, 2, date = Date(), "First post", 3, 4, false, false, false, likes = Likes(), "type", 2)
@@ -117,8 +143,11 @@ fun main(args: Array<String>) {
     )
     println(
         WallService.update(
-            Post(2, 2, 3, date = Date(), "Post", 5, 5, false, false, false, likes = Likes(), "type", 2
+            Post(
+                2, 2, 3, date = Date(), "Post", 5, 5, false, false, false, likes = Likes(), "type", 2
             )
         )
     )
+    println(
+        WallService.createComment(postId = 2, comment = Comment(100,1,date = Date(),"Post post")))
 }

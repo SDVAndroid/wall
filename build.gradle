@@ -11,12 +11,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    testImplementation 'junit:junit:4.13.2'
 }
 
-test {
+/*test {
     useJUnitPlatform()
-}
+}*/
 
 kotlin {
     jvmToolchain(8)
